@@ -14,8 +14,8 @@ pub fn main() anyerror!void {
         .y = ball.position.y + ball.radius,
     };
 
-    // var paddle = models.Paddle.init(0, 0, 20, 6, rl.Color.blue);
-
+    var paddleOne = models.Paddle.init(0, 0, 20, 80, rl.Color.blue, .Left);
+    var paddleTwo = models.Paddle.init(screenWidth - 20, 0, 20, 80, rl.Color.green, .Right);
     rl.initWindow(screenWidth, screenHeight, "ZigPong");
     defer rl.closeWindow(); // Close window and OpenGL context
 
@@ -27,8 +27,11 @@ pub fn main() anyerror!void {
         defer rl.endDrawing();
         rl.clearBackground(rl.Color.white);
 
-        //paddle.draw();
-        //paddle.move(screenHeight);
+        paddleOne.draw();
+        paddleOne.move(screenHeight);
+
+        paddleTwo.draw();
+        paddleTwo.move(screenHeight);
         //rl.drawCircle(20, 20, 20, rl.Color.red);
 
         ball.update(screenHeight, screenWidth);

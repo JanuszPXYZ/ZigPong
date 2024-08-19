@@ -33,26 +33,42 @@ pub const Ball = struct {
     }
 };
 
+pub const PlayerType = enum { Left, Right };
+
 /// Paddle object
 pub const Paddle = struct {
     position: rl.Vector2,
     size: rl.Vector2,
     color: rl.Color,
+    player_type: PlayerType,
 
-    pub fn init(x: f32, y: f32, width: f32, height: f32, color: rl.Color) Paddle {
+    pub fn init(x: f32, y: f32, width: f32, height: f32, color: rl.Color, player_type: PlayerType) Paddle {
         return Paddle{
             .position = rl.Vector2.init(x, y),
             .size = rl.Vector2.init(width, height),
             .color = color,
+            .player_type = player_type,
         };
     }
 
     pub fn move(self: *Paddle, screenHeight: f32) void {
-        if (rl.isKeyDown(rl.KeyboardKey.key_s) and self.position.y + self.size.y <= screenHeight) {
-            self.position.y += 8;
-        }
-        if (rl.isKeyDown(rl.KeyboardKey.key_w) and self.position.y >= 0) {
-            self.position.y -= 8;
+        switch (self.player_type) {
+            .Left => {
+                if (rl.isKeyDown(rl.KeyboardKey.key_s) and self.position.y + self.size.y <= screenHeight) {
+                    self.position.y += 8;
+                }
+                if (rl.isKeyDown(rl.KeyboardKey.key_w) and self.position.y >= 0) {
+                    self.position.y -= 8;
+                }
+            },
+            .Right => {
+                if (rl.isKeyDown(rl.KeyboardKey.key_down) and self.position.y + self.size.y <= screenHeight) {
+                    self.position.y += 8;
+                }
+                if (rl.isKeyDown(rl.KeyboardKey.key_up) and self.position.y >= 0) {
+                    self.position.y -= 8;
+                }
+            },
         }
     }
 

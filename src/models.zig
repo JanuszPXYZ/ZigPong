@@ -6,17 +6,26 @@ pub const Ball = struct {
     position: rl.Vector2,
     radius: f32,
     speed: rl.Vector2,
+    paddleLeft: *Paddle,
+    paddleRight: *Paddle,
 
-    pub fn init(centerX: f32, centerY: f32, radius: f32, speed: f32) Ball {
+    pub fn init(centerX: f32, centerY: f32, radius: f32, speed: f32, paddleLeft: *Paddle, paddleRight: *Paddle) Ball {
         return Ball{
             .position = rl.Vector2.init(centerX, centerY),
             .radius = radius,
             .speed = rl.Vector2.init(speed, speed),
+            .paddleLeft = paddleLeft,
+            .paddleRight = paddleRight,
         };
     }
 
     pub fn update(self: *Ball, screenHeight: f32, screenWidth: f32) void {
-        self.position = rlm.vector2Add(self.position, self.speed);
+        // Adding speed vector to the position means that we're
+        // adding to both coordinates. For now, I'll change this
+        // so that the ball bounces only horizontally. It'll be
+        // easier to test the collisions with paddles
+        self.position.x += self.speed.x;
+        //self.position = rlm.vector2Add(self.position, self.speed);
 
         // check for y collisions
         if (self.position.y - self.radius <= 0 or self.position.y + self.radius >= screenHeight) {
@@ -26,6 +35,11 @@ pub const Ball = struct {
         if (self.position.x - self.radius <= 0 or self.position.x + self.radius >= screenWidth) {
             self.speed.x *= -1;
         }
+
+        // Ok, but what about when the ball hits the paddle(s)?
+        // We have two paddles, and we have to respond to
+        // the ball hitting one of them
+        //
     }
 
     pub fn draw(self: *Ball) void {

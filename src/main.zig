@@ -8,14 +8,14 @@ const screenWidth = 800;
 const screenHeight = 450;
 
 pub fn main() anyerror!void {
-    var ball = models.Ball.init(0, 0, 20, 4);
+    var paddleOne = models.Paddle.init(0, 0, 20, 80, rl.Color.blue, .Left);
+    var paddleTwo = models.Paddle.init(screenWidth - 20, 0, 20, 80, rl.Color.green, .Right);
+
+    var ball = models.Ball.init(screenWidth / 2, screenHeight / 2, 20, 4, &paddleOne, &paddleTwo);
     ball.position = .{
         .x = ball.position.x + ball.radius,
         .y = ball.position.y + ball.radius,
     };
-
-    var paddleOne = models.Paddle.init(0, 0, 20, 80, rl.Color.blue, .Left);
-    var paddleTwo = models.Paddle.init(screenWidth - 20, 0, 20, 80, rl.Color.green, .Right);
     rl.initWindow(screenWidth, screenHeight, "ZigPong");
     defer rl.closeWindow(); // Close window and OpenGL context
 
@@ -32,7 +32,6 @@ pub fn main() anyerror!void {
 
         paddleTwo.draw();
         paddleTwo.move(screenHeight);
-        //rl.drawCircle(20, 20, 20, rl.Color.red);
 
         ball.update(screenHeight, screenWidth);
         ball.draw();

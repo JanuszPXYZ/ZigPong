@@ -39,9 +39,9 @@ pub const Ball = struct {
         // Ok, but what about when the ball hits the paddle(s)?
         // We have two paddles, and we have to respond to
         // the ball hitting one of them
-        if (self.position.x - self.radius <= self.paddleLeft.position.x + self.paddleLeft.size.x and (self.position.y + self.radius >= self.paddleLeft.position.y or self.position.y + self.radius <= self.paddleLeft.position.y + self.paddleLeft.size.y)) {
+        if (self.position.x - self.radius <= self.paddleLeft.position.x + self.paddleLeft.size.x and (self.position.y + self.radius >= self.paddleLeft.position.y and self.position.y + self.radius <= self.paddleLeft.position.y + self.paddleLeft.size.y)) {
             self.speed.x *= -0.45;
-        } else if (self.position.x + self.radius >= self.paddleRight.position.x and (self.position.y + self.radius >= self.paddleRight.position.y or self.position.y + self.radius <= self.paddleRight.position.y + self.paddleRight.size.y)) {
+        } else if (self.position.x + self.radius >= self.paddleRight.position.x and (self.position.y >= self.paddleRight.position.y and self.position.y <= self.paddleRight.position.y + self.paddleRight.size.y)) {
             self.speed.x *= -0.45;
         }
     }

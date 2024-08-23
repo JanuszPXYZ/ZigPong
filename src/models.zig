@@ -26,23 +26,21 @@ pub const Ball = struct {
         // easier to test the collisions with paddles
         self.position.x += self.speed.x;
         //self.position = rlm.vector2Add(self.position, self.speed);
-
+        _ = screenHeight;
+        _ = screenWidth;
         // check for y collisions
-        if (self.position.y - self.radius <= 0 or self.position.y + self.radius >= screenHeight) {
-            self.speed.y *= -1;
-        }
+        // if (self.position.y - self.radius <= 0 or self.position.y + self.radius >= screenHeight) {
+        //     self.speed.y *= -1;
+        // }
 
-        if (self.position.x - self.radius <= 0 or self.position.x + self.radius >= screenWidth) {
+        // if (self.position.x - self.radius <= 0 or self.position.x + self.radius >= screenWidth) {
+        //     self.speed.x *= -1;
+        //  }
+
+        if (self.position.x - self.radius <= self.paddleLeft.position.x + self.paddleLeft.size.x and (self.position.y >= self.paddleLeft.position.y and self.position.y <= self.paddleLeft.position.y + self.paddleLeft.size.y)) {
             self.speed.x *= -1;
-        }
-
-        // Ok, but what about when the ball hits the paddle(s)?
-        // We have two paddles, and we have to respond to
-        // the ball hitting one of them
-        if (self.position.x - self.radius <= self.paddleLeft.position.x + self.paddleLeft.size.x and (self.position.y + self.radius >= self.paddleLeft.position.y and self.position.y + self.radius <= self.paddleLeft.position.y + self.paddleLeft.size.y)) {
-            self.speed.x *= -0.45;
         } else if (self.position.x + self.radius >= self.paddleRight.position.x and (self.position.y >= self.paddleRight.position.y and self.position.y <= self.paddleRight.position.y + self.paddleRight.size.y)) {
-            self.speed.x *= -0.45;
+            self.speed.x *= -1;
         }
     }
 
